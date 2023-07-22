@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
 export default function Navbar() {
@@ -10,9 +11,11 @@ export default function Navbar() {
                 </div>
                 <span className="normal-case text-3xl font-bold">TxSafe</span>
             </Link>
-            <div className="navbar-end">
-                <a className="btn btn-primary">Connect Wallet</a>
-            </div>
+            
+            {/* <div className="navbar-end"> */}
+                <ConnectButton />
+                {/* <a className="btn btn-primary">Connect Wallet</a> */}
+            {/* </div> */}
             {/* <div className="flex-none gap-2">
                 <div className="form-control">
                 <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />

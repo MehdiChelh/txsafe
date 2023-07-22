@@ -1,11 +1,15 @@
-import Accordion from "./component/accordion"
-import Navbar from "./component/navbar"
-import CoverDepositForm from "./component/CoverDepositForm"
+import Accordion from "@/app/component/accordion"
+import Navbar from "@/app/component/navbar"
+import CoverDepositForm from "@/app/component/CoverDepositForm"
+import PushOptInOut from "@/app/component/PushOptInOut"
+
 
 export default function Home() {
+  
 
   return (
     <>
+    <PushOptInOut></PushOptInOut>
     <main className="flex min-h-screen flex-col items-center justify-between bg-base-200">
       <div className="flex flex-col w-full relative h-screen">
         <Navbar />

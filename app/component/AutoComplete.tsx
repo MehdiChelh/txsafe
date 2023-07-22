@@ -47,7 +47,7 @@ const Autocomplete = (props: Props) => {
                 //         </span>
                 //     </label>
                 // </span>
-                <div key={key} className="avatar relative">
+                <div key={key} className="avatar relative -mr-4" style={{zIndex: 100-key}}>
                         <span onClick={() => popValue(value)}className="absolute top-0 right-0 -mr-2 -mt-2 hover:bg-base-200 bg-base-100/50 px-1 rounded-full cursor-pointer">
                             x
                         </span>

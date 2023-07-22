@@ -1,6 +1,6 @@
 'use client'
 import * as PushAPI from "@pushprotocol/restapi";
-import ENV from "@pushprotocol/restapi/src/lib/types";
+import { ENV } from "@pushprotocol/restapi/src/lib/constants";
 import { ethers } from 'ethers';
 
 import { useEffect, useState } from 'react';
@@ -25,10 +25,16 @@ function Child(){
 export default async function MyComponent() {
   const { address, isConnected } = useAccount()
     // console.log({address})
-    // const subscriptions = await PushAPI.user.getSubscriptions({
-    //     user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
-    //     env: ENV.STAGING,
-    //   });
+    useEffect(() => {
+
+        const subscriptions = PushAPI.user.getSubscriptions({
+            user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+            env: ENV.STAGING,
+        }).then((subscriptions) => {
+            console.log({subscriptions});
+        })
+    })
+    // console.log({subscriptions});
   return (
     <div>
       {/* Your other component content */}

@@ -15,6 +15,7 @@ import {
   optimism,
   arbitrum,
   zora,
+  sepolia,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -23,7 +24,7 @@ import { publicProvider } from 'wagmi/providers/public';
 // import { alchemyProvider } from 'wagmi/providers/alchemy';
 // import { publicProvider } from 'wagmi/providers/public';
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, zora],
+  [mainnet, polygon, optimism, arbitrum, zora, sepolia],
   [
     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

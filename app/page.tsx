@@ -1,9 +1,9 @@
 import Accordion from "./component/accordion"
-import DepositForm from "./component/deposit"
-import CoverForm from "./component/cover"
 import Navbar from "./component/navbar"
+import CoverDepositForm from "./component/CoverDepositForm"
 
 export default function Home() {
+
   return (
     <>
     <main className="flex min-h-screen flex-col items-center justify-between bg-base-200">
@@ -35,20 +35,8 @@ export default function Home() {
                 </div>
 
                 {/* Card */}
-                <div className="flex-shrink-0 w-full max-w-sm space-y-2">
-                  <div className="tabs tabs-boxed">
-                    <a className="tab">Deposit</a> 
-                    <a className="tab tab-active">Get covered</a> 
-                  </div>
+                <CoverDepositForm />
 
-                  <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <div className="card-body">
-                      {/* <DepositForm /> */}
-                      <CoverForm />
-                    </div>
-                  </div>
-
-                </div>
               </div>
             </div>
           </div>

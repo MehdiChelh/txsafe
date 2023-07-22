@@ -3,12 +3,13 @@ export default function DepositForm() {
     return (
         <>
             <div className="form-control">
-                
+
                 <label className="label">
                 <span className="label-text">Deposit</span>
                 </label>
-                <div className="input input-bordered" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
+                <div className="input input-bordered flex flex-row" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
 
+                <input type="number" placeholder="0" className="bg-transparent outline-none text-right flex-grow p-4" />
                 <div className="dropdown dropdown-hover">
                     <label tabIndex={0} className="btn m-1">ETH</label>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
@@ -16,7 +17,6 @@ export default function DepositForm() {
                     <li><a>DAI</a></li>
                     </ul>
                 </div>
-                <input type="number" placeholder="0" className="bg-transparent outline-none text-right" />
                 </div>
             </div>
             

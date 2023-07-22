@@ -1,5 +1,12 @@
+'use client'
+import { useState } from "react";
+
+import AutoComplete from "./AutoComplete"
 
 export default function CoverForm() {
+    
+    const [values, setValues] = useState(["ok", "pl"]);
+
     return (
         <>
             {/* Amount */}
@@ -11,7 +18,8 @@ export default function CoverForm() {
                         </div>
                     </span>
                 </label>
-                <div className="input input-bordered" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
+                <div className="input input-bordered flex flex-row" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
+                <input type="number" placeholder="0" className="bg-transparent outline-none text-right flex-grow p-4" />
                 <div className="dropdown dropdown-hover">
                     <label tabIndex={0} className="btn m-1">ETH</label>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
@@ -19,11 +27,10 @@ export default function CoverForm() {
                     <li><a>DAI</a></li>
                     </ul>
                 </div>
-                <input type="number" placeholder="0" className="bg-transparent outline-none text-right" />
                 </div>
             </div>
 
-            <div className="form-control">
+            {/* <div className="form-control">
                 <label className="label">
                     <span className="label-text"><span className="mr-2">Period</span>
                         <div className="tooltip" data-tip="Number of days for the cover.">
@@ -32,49 +39,37 @@ export default function CoverForm() {
                     </span>
                 </label>
                 <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-            </div>
+            </div> */}
 
             {/* Period */}
             <div className="form-control">
                 <label className="label">
-                    <span className="label-text"><span className="mr-2">Amount</span>
-                        <div className="tooltip" data-tip="Maximum amount covered in the case of a claim. See terms bellow for more details.">
+                    <span className="label-text"><span className="mr-2">Period</span>
+                        <div className="tooltip" data-tip="Number of days of cover.">
                             <span className="rounded-full border-2 border-gray-400 px-1">i</span>
                         </div>
                     </span>
                 </label>
-                <div className="input input-bordered flex flex-row" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
-                    <input type="number" placeholder="0" className="bg-transparent outline-none text-right" />
-                    <div className="dropdown dropdown-hover">
-                        <label tabIndex={0} className="btn m-1">ETH</label>
-                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
-                        <li><a>ETH</a></li>
-                        <li><a>DAI</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-            <div className="form-control">
-                <label className="label">
-                    <span className="label-text"><span className="mr-2">Amount</span>
-                        <div className="tooltip" data-tip="Maximum amount covered in the case of a claim. See terms bellow for more details.">
-                            <span className="rounded-full border-2 border-gray-400 px-1">i</span>
-                        </div>
-                    </span>
-                    
-                </label>
-                <div className="input input-bordered" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
-
-                    <input type="number" placeholder="0" className="bg-transparent outline-none text-right" />
-                    <div className="dropdown dropdown-hover">
-                        DAYS
+                <div className="input input-bordered flex flex-row space-x-2" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
+                    <input type="number" placeholder="28" className="bg-transparent outline-none text-right flex-grow" />
+                    <div className="dropdown ">
+                        <label tabIndex={0} className="btn m-1 hover:cursor-default">DAYS</label>
                     </div>
                 </div>
             </div>
             
             <div className="form-control">
+                <label className="label">
+                    <span className="label-text"><span className="mr-2">Protocols</span>
+                        <div className="tooltip" data-tip="The protocols for which you want to be covered.">
+                            <span className="rounded-full border-2 border-gray-400 px-1">i</span>
+                        </div>
+                    </span>
+                </label>
+                <AutoComplete values={values} setValues={setValues} items={["ok", "pl"]} />
+            </div>
+
+            {/* <div className="form-control">
                 <label className="label">
                 <span className="label-text">Risk level</span>
                 </label>
@@ -99,10 +94,10 @@ export default function CoverForm() {
                     <span className="label-text badge badge-secondary badge-outline">-10.4%</span>
                 </span>
                 </label>
-            </div>
+            </div> */}
             
             <div className="form-control mt-6">
-                <button className="btn btn-primary">Deposit</button>
+                <button className="btn btn-primary">Buy Cover</button>
             </div>
         </>
     )

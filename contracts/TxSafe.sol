@@ -369,6 +369,14 @@ contract TxSafe {
         coverages_count += 1;
     }
 
+    function get_coverages() public view returns (mapping(string => mapping(string => mapping(uint => mapping(uint => uint))))) {
+        return users_coverage[msg.sender];
+    }
+
+    function get_deposits() public view returns (mapping(string => mapping(uint => mapping(uint8 => uint)))) {
+        return users_deposits[msg.sender];
+    }
+
     //    Viewer functions
 
 }

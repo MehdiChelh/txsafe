@@ -336,8 +336,8 @@ contract TxSafe {
         return 0;
     }
 
-    function get_coverage_price() private pure returns (uint) {
-        return 0;
+    function get_coverage_price(uint _amount, uint _time_in, uint _time_out) private pure returns (uint) {
+        return _amount * max(0.02 / 100 ; 0.015 * (_time_out - _time_in) / 2880);
     }
 
     // 1inch, makerdao, uniswap, aave

@@ -1,7 +1,40 @@
+import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 
-export default function DepositForm() {
+enum Token {
+    ETH = "ETH",
+    DAI = "DAI",
+}
+
+enum RiskLevel {
+    A = "A (High risk)",
+    B = "B (Medium risk)",
+    C = "C (Low risk)",
+}
+
+
+const DepositForm = () => {
+
+
+
     return (
         <>
+        <Formik
+        initialValues={{
+            amount: 0,
+            token: Token.ETH,
+            riskLevel: RiskLevel.B,
+        }}
+        onSubmit= {(values:any ) => {
+            
+            // @Sami: TODO: call the contract
+            console.log(values);
+            
+
+        }}>
+            {({values, setFieldValue}) => (
+
+            <Form className="space-y-4">
             <div className="form-control">
 
                 <label className="label">
@@ -9,12 +42,14 @@ export default function DepositForm() {
                 </label>
                 <div className="input input-bordered flex flex-row" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
 
-                <input type="number" placeholder="0" className="bg-transparent outline-none text-right flex-grow p-4" />
+                <Field type="number" name="amount" placeholder="0" className="bg-transparent outline-none text-right flex-grow p-4" />
+                
                 <div className="dropdown dropdown-hover">
-                    <label tabIndex={0} className="btn m-1">ETH</label>
+                    <label tabIndex={0} className="btn m-1">{values.token}</label>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
-                    <li><a>ETH</a></li>
-                    <li><a>DAI</a></li>
+                    {Object.keys(Token).map((token) => (
+                        <li onClick={() => setFieldValue("token", token)}><a>{token}</a></li>
+                    ))}
                     </ul>
                 </div>
                 </div>
@@ -22,14 +57,14 @@ export default function DepositForm() {
             
             <div className="form-control">
                 <label className="label">
-                <span className="label-text">Risk level</span>
+                <span className="label-text">Risk/Reward level</span>
                 </label>
-                <select className="select select-bordered w-full max-w-xs">
+                <Field as="select" name="riskLevel" className="select select-bordered w-full max-w-xs">
                 <option disabled selected>Select your risk level</option>
-                <option>A (High risk)</option>
-                <option>B (Medium risk)</option>
-                <option>C (Low risk)</option>
-                </select>
+                {Object.keys(RiskLevel).map((key, idx) => (
+                    <option value={key}>{Object.values(RiskLevel)[idx]}</option>
+                ))}
+                </Field>
             </div>
 
             <div className="form-control flex flex-col">
@@ -50,6 +85,11 @@ export default function DepositForm() {
             <div className="form-control mt-6">
                 <button className="btn btn-primary">Deposit</button>
             </div>
+            </Form>
+            )}
+            </Formik>
         </>
     )
 }
+
+export default DepositForm;

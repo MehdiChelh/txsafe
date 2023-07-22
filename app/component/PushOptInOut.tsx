@@ -6,7 +6,10 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 // import { getUserAddress } from '@/utils/eth';
 
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount, useConnect, useDisconnect, useWalletClient } from 'wagmi'
+
+import { useWeb3React } from "@web3-react/core";
+
 
 
 // any other web3 ui lib is also acceptable
@@ -20,26 +23,58 @@ function Child(){
 }
 
   
-  
 
-export default async function MyComponent() {
-  const { address, isConnected } = useAccount()
-    // console.log({address})
+const usePushSubscriptions = (address: any, isConnected: any) => {
+    const [subscriptions, setSubscriptions] = useState();
+
     useEffect(() => {
+        if (isConnected){
+            const subscriptions = PushAPI.user.getSubscriptions({
+                user: `eip155:5:${address}`, // user address in CAIP
+                env: ENV.STAGING,
+            }).then((subscriptions) => {
+                setSubscriptions(subscriptions);
+            })
+        }
+    }, [isConnected, address])
 
-        const subscriptions = PushAPI.user.getSubscriptions({
-            user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
-            env: ENV.STAGING,
-        }).then((subscriptions) => {
-            console.log({subscriptions});
+    const { data: walletClient, isError, isLoading } = useWalletClient()
+
+    const { account, library, chainId } = useWeb3React();
+    const signer = library.getSigner(account);
+    // walletClient
+    console.log({walletClient})
+    const optIn = async () => {
+        await PushAPI.channels.subscribe({
+            signer: walletClient?.signTypedData,
+            channelAddress: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
+            userAddress: `eip155:5:${address}`, // user address in CAIP
+            onSuccess: () => {
+            console.log('opt in success');
+            },
+            onError: () => {
+            console.error('opt in error');
+            },
+            env: ENV.STAGING
         })
-    })
-    // console.log({subscriptions});
-  return (
-    <div>
-      {/* Your other component content */}
-    </div>
-  );
+    }
+    return [subscriptions, optIn];
+}
+
+
+export default function MyComponent() {
+    const { address, isConnected } = useAccount()
+    
+    const [subscriptions, optIn] = usePushSubscriptions(address, isConnected);
+
+
+
+    return (
+        <div>
+            <button onClick={optIn}>Opt In</button>
+            {/* Your other component content */}
+        </div>
+    );
 }
 
 // export default async function PushOptInOut () {

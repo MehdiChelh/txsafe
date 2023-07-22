@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-    {/* <PushOptInOut></PushOptInOut> */}
+    <PushOptInOut></PushOptInOut>
     <main className="flex min-h-screen flex-col items-center justify-between bg-base-200">
       <div className="flex flex-col w-full relative h-screen">
         <Navbar />

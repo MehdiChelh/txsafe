@@ -3,9 +3,20 @@ import { useState } from "react";
 
 import AutoComplete from "./AutoComplete"
 
+const mapping = {
+    uniswap: "asset/img/uniswap.jpg",
+    aave: "asset/img/aave.jpg",
+    "1inch": "asset/img/1inch.jpg",
+    makerdao : "asset/img/makerdao.jpg",
+}
+
+const protocols = [
+    "uniswap", "1inch", "makerdao"
+];
+
 export default function CoverForm() {
     
-    const [values, setValues] = useState(["ok", "pl"]);
+    const [values, setValues] = useState([]);
 
     return (
         <>
@@ -66,7 +77,7 @@ export default function CoverForm() {
                         </div>
                     </span>
                 </label>
-                <AutoComplete values={values} setValues={setValues} items={["ok", "pl"]} />
+                <AutoComplete values={values} setValues={setValues} items={protocols} metadata={{mapping}} />
             </div>
 
             {/* <div className="form-control">

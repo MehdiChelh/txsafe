@@ -1,13 +1,15 @@
+import Link from "next/link"
+
 
 export default function Navbar() {
     return (
         <div className="navbar bg-base-100 p-6">
-            <div className="flex-1 space-x-4">
+            <Link href="/" className="flex-1 space-x-4">
                 <div className="w-10 rounded-full bg-gray">
                     <img src="/asset/img/icon.svg" />
                 </div>
-                <a className="normal-case text-3xl font-bold">TxSafe</a>
-            </div>
+                <span className="normal-case text-3xl font-bold">TxSafe</span>
+            </Link>
             <div className="navbar-end">
                 <a className="btn btn-primary">Connect Wallet</a>
             </div>

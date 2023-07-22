@@ -21,10 +21,10 @@ export default function Account() {
             <div className="max-w-5xl w-full font-mono text-sm lg:flex flex flex-col space-y-4">
                 <div className="tabs tabs-boxed flex flex-row">
                     <a 
-                        className={`tab ${accountView === View.Cover && "tab-active"}`}
+                        className={`tab text-xl ${accountView === View.Cover && "tab-active"}`}
                         onClick={() => setAccountView(View.Cover)}>Your covers</a> 
                     <a 
-                        className={`tab ${accountView === View.Deposit && "tab-active"}`}
+                        className={`tab  text-xl ${accountView === View.Deposit && "tab-active"}`}
                         onClick={() => setAccountView(View.Deposit)}>Staked amount</a> 
                 </div>
                 <div className="w-full">
@@ -180,8 +180,8 @@ function DepositView() {
                         </label> */}
                         <div className="form-control">
                             <div className="input-group">
-                                <input type="number" placeholder="0.01" className="input input-bordered w-36 text-right text-xl py-8" />
-                                <button className="btn text-xl py-8">
+                                <input type="number" placeholder="0.01" className="input input-bordered w-36 text-right text-xl" />
+                                <button className="btn text-xl">
                                     Withdraw
                                     {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg> */}
                                 </button>

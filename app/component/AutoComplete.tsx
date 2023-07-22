@@ -6,14 +6,15 @@ type Props = {
   values: string[];
   items: string[];
   setValues: any;
+  metadata: {mapping: {[key: string]: string}};
 };
 
 
 //we are using dropdown, input and menu component from daisyui
 const Autocomplete = (props: Props) => {
   const [query, setQuery] = useState("");
-  const { values, setValues, items } = props;
-
+  const { values, setValues, items, metadata} = props;
+  const mapping = {metadata};
   const pushValue = (value: string) => {
     if (!values.includes(value)) {
       setValues([...values, value]);
@@ -36,20 +37,35 @@ const Autocomplete = (props: Props) => {
     >
       <div className="form-control">
         <div className="input input-bordered flex flex-row" style={{height: "initial", paddingRight: "initial", paddingLeft: "initial"}}>
-            <div className="dropdown dropdown-hover flex flex-row">
+            <div className="dropdown dropdown-hover flex flex-row items-center px-2">
             {values.map((value, key) => (
-                <span key={key} className="">
-                    <label className="btn m-1 relative">{value}<span onClick={() => popValue(value)}className="absolute top-0 right-0 hover:bg-black p-1 rounded-md">x</span></label>
-                </span>
+                // <span key={key} className="">
+                //     <label className="btn m-1 relative">
+                //         {value}
+                //         <span onClick={() => popValue(value)}className="absolute top-0 right-0 hover:bg-black p-1 rounded-md">
+                //             x
+                //         </span>
+                //     </label>
+                // </span>
+                <div key={key} className="avatar relative">
+                        <span onClick={() => popValue(value)}className="absolute top-0 right-0 -mr-2 -mt-2 hover:bg-base-200 bg-base-100/50 px-1 rounded-full cursor-pointer">
+                            x
+                        </span>
+                    <div className="w-10 h-10 rounded-full">
+                        <img src={`asset/img/${value}.jpg`} />
+                    </div>
+                </div>
             ))}
                 
             </div>
-            <input
-                value={query}
-                className="bg-transparent outline-none text-right flex-grow p-4"
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Type something.."
-                tabIndex={0} />
+            <div className="flex-grow flex flex-row-reverse">
+                <input
+                    value={query}
+                    className="bg-transparent outline-none text-right p-4 flex-grow"
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Type something.."
+                    tabIndex={0} />
+            </div>
         </div>
         {/* <input
             type="text"

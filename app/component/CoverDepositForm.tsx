@@ -15,10 +15,10 @@ export default function CoverDepositForm() {
     <div className="flex-shrink-0 w-full max-w-sm space-y-2">
         <div className="tabs tabs-boxed">
         <a 
-            className={`tab ${showForm === Form.Deposit && "tab-active"}`}
+            className={`tab text-xl ${showForm === Form.Deposit && "tab-active"}`}
             onClick={() => setShowForm(Form.Deposit)}>Deposit</a> 
         <a 
-            className={`tab ${showForm === Form.Cover && "tab-active"}`}
+            className={`tab text-xl ${showForm === Form.Cover && "tab-active"}`}
             onClick={() => setShowForm(Form.Cover)}>Get covered</a> 
         </div>
 

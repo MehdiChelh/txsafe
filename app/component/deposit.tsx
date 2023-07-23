@@ -1,8 +1,24 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import { utils, providers, Contract, BigNumber } from "ethers";
+
+import txSafeContract from "../../contracts/txsafe.json"
+
+import { MetaMaskInpageProvider } from "@metamask/providers";
+
+declare global {
+  interface Window{
+    ethereum?:MetaMaskInpageProvider
+  }
+}
+
+const provider = new providers.JsonRpcProvider(process.env.NEXT_PUBLIC_SEPOLIA_RPC);
+const txsafeC = new Contract(process.env.NEXT_PUBLIC_TXSAFE_CONTRACT_ADDRESS, txSafeContract.abi, provider);
+
 
 enum Token {
-    ETH = "ETH",
+    NATIVE = "ETH",
+    stNATIVE = "aETH",
     DAI = "DAI",
 }
 
@@ -25,10 +41,40 @@ const DepositForm = () => {
             token: Token.ETH,
             riskLevel: RiskLevel.B,
         }}
-        onSubmit= {(values:any ) => {
+        onSubmit= { async (values:any ) => {
             
             // @Sami: TODO: call the contract
-            console.log(values);
+            const poolMapping = {
+                "A": 2,
+                "B": 1,
+                "C" : 0
+            }
+
+            console.log(values.riskLevel)
+
+            const deposit_amount = values.amount
+            const deposit_pool = poolMapping[values.riskLevel]
+            const deposit_token = values.token
+
+            console.log(Date.now())
+
+            if (deposit_token == "NATIVE") {
+                const tx = await txsafeC.populateTransaction.deposit_native("100", deposit_pool, Date.now());
+
+                const transactionParameters = {
+                    to: tx.to,
+                    from: window.ethereum.selectedAddress,
+                    value: "100"
+                  };
+
+                await window.ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [transactionParameters],
+                  });
+            } else {
+
+            }
+            
             
 
         }}>
@@ -83,7 +129,7 @@ const DepositForm = () => {
             </div>
             
             <div className="form-control mt-6">
-                <button className="btn btn-primary">Deposit</button>
+                <button type="submit" className="btn btn-primary">Deposit</button>
             </div>
             </Form>
             )}

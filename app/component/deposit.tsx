@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import { utils, providers, Contract, BigNumber } from "ethers";
 
-import txSafeContract from "../../contracts/txsafe.json"
+import txSafeContract from "../../contracts/txsafe.json";
+import stNativeContract from "../../contracts/stnative.json";
+import daiContract from "../../contracts/dai.json";
+import txsContract from "../../contracts/txs.json";
 
 import { MetaMaskInpageProvider } from "@metamask/providers";
 
@@ -14,6 +17,9 @@ declare global {
 
 const provider = new providers.JsonRpcProvider(process.env.NEXT_PUBLIC_SEPOLIA_RPC);
 const txsafeC = new Contract(process.env.NEXT_PUBLIC_TXSAFE_CONTRACT_ADDRESS, txSafeContract.abi, provider);
+const stNativeC = new Contract(process.env.NEXT_PUBLIC_STNATIVE_CONTRACT_ADDRESS, stNativeContract.abi, provider);
+const daiC = new Contract(process.env.NEXT_PUBLIC_DAI_CONTRACT_ADDRESS, daiContract.abi, provider);
+const txsC = new Contract(process.env.NEXT_PUBLIC_TXS_CONTRACT_ADDRESS, txsContract.abi, provider);
 
 
 enum Token {
@@ -28,10 +34,7 @@ enum RiskLevel {
     C = "C (Low risk)",
 }
 
-
 const DepositForm = () => {
-
-
 
     return (
         <>
@@ -50,33 +53,78 @@ const DepositForm = () => {
                 "C" : 0
             }
 
-            console.log(values.riskLevel)
-
             const deposit_amount = values.amount
             const deposit_pool = poolMapping[values.riskLevel]
             const deposit_token = values.token
 
-            console.log(Date.now())
-
             if (deposit_token == "NATIVE") {
-                const tx = await txsafeC.populateTransaction.deposit_native("100", deposit_pool, Date.now());
+                const tx = await txsafeC.populateTransaction.deposit_native(utils.parseUnits(deposit_amount.toString(), "ether"), 1, Date.now());
 
                 const transactionParameters = {
                     to: tx.to,
                     from: window.ethereum.selectedAddress,
-                    value: "100"
+                    data: tx.data,
+                    value:  utils.parseUnits(deposit_amount.toString(), "ether")._hex
                   };
 
                 await window.ethereum.request({
                     method: 'eth_sendTransaction',
                     params: [transactionParameters],
                   });
-            } else {
+            } else if (deposit_token == "stNATIVE") {
+                const approval = await stNativeC.populateTransaction.approve(txsafeC.address, utils.parseUnits("1000000000000000000000000", "ether"));
+                const from = window.ethereum.selectedAddress
 
+                const approvalParameters = {
+                to: approval.to,
+                from: from,
+                data: approval.data
+                };
+                const approved = await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [approvalParameters],
+                });
+
+                await provider.waitForTransaction(approved)
+                const tx = await txsafeC.populateTransaction.deposit(deposit_token, utils.parseUnits(deposit_amount.toString(), "ether"), 1, Date.now());
+
+                const transactionParameters = {
+                to: tx.to,
+                from: from,
+                data: tx.data
+                };
+                await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [transactionParameters],
+                });
+            } else if (deposit_token == "DAI") { 
+                const approval = await daiC.populateTransaction.approve(txsafeC.address, utils.parseUnits("1000000000000000000000000", "ether"));
+                const from = window.ethereum.selectedAddress
+
+                const approvalParameters = {
+                to: approval.to,
+                from: from,
+                data: approval.data
+                };
+                const approved = await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [approvalParameters],
+                });
+
+                await provider.waitForTransaction(approved)
+                const tx = await txsafeC.populateTransaction.deposit(deposit_token, utils.parseUnits(deposit_amount.toString(), "ether"), 1, Date.now());
+
+                const transactionParameters = {
+                to: tx.to,
+                from: from,
+                data: tx.data
+                };
+                await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [transactionParameters],
+                });
             }
             
-            
-
         }}>
             {({values, setFieldValue}) => (
 

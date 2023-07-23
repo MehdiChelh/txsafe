@@ -128,7 +128,6 @@ contract TxSafe {
         require(msg.value > 0);
         require(msg.value == _amount);
         require(_risk_pool == 0 || _risk_pool == 1 || _risk_pool == 2);
-        require(_time_in >= block.timestamp);
         
         users_deposits[msg.sender]["NATIVE"][_time_in][_risk_pool] = _amount;
         users_deposit_native_value[msg.sender] += _amount;
